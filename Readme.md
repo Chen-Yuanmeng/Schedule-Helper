@@ -1,16 +1,26 @@
-# 课程表工具
+# 课程表导入日历助手
 
 本工具旨在帮助大学生方便管理自己的课程。
 
 ## 功能简介
 
+## 下载方式
+
+可以从以下方式获取本软件：
+
+- [GitHub Release]()
+- [Gitee Release (GitHub镜像)]()
+- [蓝奏云]()
+
 ## 使用方法
+
+### Step 1: 设置课节
+
+### Step 2: 设置课程
+
+### Step 3: 导出文件
+
 
 ## 注意事项
 
-## 主要贡献人员
-
-- 尘缘梦 ([cym2784841400@gmail.com](mailto:cym2784841400@gmail.com))
-- Altairpaca ([zli743@connect.hkust-gz.edu.cn](mailto:zli743@connect.hkust-gz.edu.cn))
-
-其他贡献人员可以在这里查看
+## 支持我们
