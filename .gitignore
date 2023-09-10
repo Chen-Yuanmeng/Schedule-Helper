@@ -1,6 +1,8 @@
+.editorconfig
 .idea/
 .vscode/
 __pycache__/
 *.py[cod]
 *.pyc
 .DS_Store
+test.py
