@@ -9,5 +9,5 @@ class MyFrame(wx.Frame):
         else:
             super().__init__(parent, id, title, size=(width * DISPLAY_SCALE, height * DISPLAY_SCALE), style=style)
         self.panel = wx.Panel(self)
-        ico = wx.Icon('../ScheduleHelper.ico')
+        ico = wx.Icon('../assets/ScheduleHelper.ico')
         self.SetIcon(ico)
