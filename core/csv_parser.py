@@ -2,8 +2,8 @@ import csv
 import re
 from typing import Iterable
 
-_argm_start: int = 12
-_crs_start: int
+_argm_start: int = 14
+_crs_start: int = 15
 _transtable = str.maketrans({'，': ' ', '、': ' ', '~': '-', ',': ' '})
 
 _prepr_regex = re.compile(r'\s+')
@@ -21,20 +21,14 @@ def parse_courses(path: str = '设置课程.csv', encoding: str = "UTF-8") -> li
         return [(n, lcr, pos, *_range_handler(rst)) for idx, (n, lcr, pos, *rst) in enumerate(csv.reader(fp)) if idx > _crs_start and n]
 
 
-def _range_handler(args: Iterable[str]) -> Iterable[Iterable[int]]:
-    lst = []
+def _range_handler(args: Iterable[str]) -> Iterable[tuple[int]]:
     for i in args:
+        s = set()
         i = _prepr_regex.sub(' ', i).translate(_transtable)
-        lst.extend((int(j.group(1)) for j in _sep_regex.finditer(i)),)
+        s.update((int(j.group(1)) for j in _sep_regex.finditer(i)),)
         for k in _range_regex.finditer(i):
-            lst.extend(range(int(k.group(1)), int(k.group(2))+1))
-    yield lst
+            s.update(range(int(k.group(1)), int(k.group(2))+1))
+        yield tuple(s)
 
 
 __all__ = [parse_arrangement, parse_courses]
-
-if __name__ == '__main__':
-    # test
-    s = '1、3、5-7，10,11  12~20'
-    for i in _range_handler((s,)):
-        print(i)
