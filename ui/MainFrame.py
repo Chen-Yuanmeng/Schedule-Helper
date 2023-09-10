@@ -1,13 +1,13 @@
 import wx
 from os import system
-import ui.MyFrame
-import ui.MyFont
-import ui.HelpDialog
-import ui.RestoreExcel
-import ui.DisplayConfig
+import ui.MyFrame as MyFrame
+import ui.MyFont as MyFont
+import ui.HelpDialog as HelpDialog
+import ui.RestoreExcel as RestoreExcel
+import ui.DisplayConfig as DisplayConfig
 
 
-class MainFrame(ui.MyFrame.MyFrame):
+class MainFrame(MyFrame.MyFrame):
     MENU_ID_EXIT = 101
     MENU_ID_HELP_DOCUMENTATION = 102
     MENU_ID_FEEDBACK = 103
@@ -21,8 +21,8 @@ class MainFrame(ui.MyFrame.MyFrame):
         super().__init__('课程表导入日历助手')
 
         # 字体
-        self.font = ui.MyFont.MyFont(12, '微软雅黑')
-        self.font_small = ui.MyFont.MyFont(11, '微软雅黑')
+        self.font = MyFont.MyFont(12, '微软雅黑')
+        self.font_small = MyFont.MyFont(11, '微软雅黑')
 
         # 整体sizer布局
         self.sizer = wx.BoxSizer(wx.VERTICAL)
@@ -38,7 +38,7 @@ class MainFrame(ui.MyFrame.MyFrame):
         # 第一个框
         self.text_1 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课节.xlsx”，并按\n提示操作')
         self.text_1.SetFont(self.font)
-        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节', size=(350 * ui.DisplayConfig.DISPLAY_SCALE, 45 * ui.DisplayConfig.DISPLAY_SCALE))
+        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节', size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
         self.button_1.SetFont(self.font_small)
         self.button_1.Bind(wx.EVT_BUTTON, self.on_click_button_1)
         self.step_1.Add(self.text_1, 0, wx.ALL, 5)
@@ -47,7 +47,7 @@ class MainFrame(ui.MyFrame.MyFrame):
         # 第二个框
         self.text_2 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课程.xlsx”，并按\n提示操作')
         self.text_2.SetFont(self.font)
-        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程', size=(350 * ui.DisplayConfig.DISPLAY_SCALE, 45 * ui.DisplayConfig.DISPLAY_SCALE))
+        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程', size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
         self.button_2.SetFont(self.font_small)
         self.button_2.Bind(wx.EVT_BUTTON, self.on_click_button_2)
         self.step_2.Add(self.text_2, 0, wx.ALL, 5)
@@ -129,8 +129,6 @@ class MainFrame(ui.MyFrame.MyFrame):
         ...
 
     def on_menubar(self, evt):
-        id = evt.GetId()
-
         func_table = {self.MENU_ID_EXIT: self.on_exit,
             self.MENU_ID_RESTORE_EXCEL: self.on_restore,
             self.MENU_ID_HELP_DOCUMENTATION: self.on_open_doc,
@@ -140,7 +138,7 @@ class MainFrame(ui.MyFrame.MyFrame):
             self.MENU_ID_HOMEPAGE: self.on_homepage,
             self.MENU_ID_ABOUT: self.on_about}
 
-        func_table[id]()
+        func_table[evt.GetId()]()
 
     @staticmethod
     def on_exit():
@@ -149,26 +147,26 @@ class MainFrame(ui.MyFrame.MyFrame):
 
     @staticmethod
     def on_restore():
-        ui.RestoreExcel.restore_excel()
+        RestoreExcel.restore_excel()
         wx.MessageBox('已经恢复 设置课节.xlsx 和 设置课程.xlsx 两文件', '提示')
 
     @staticmethod
     def on_open_doc():
-        with open('../docs/help.html', 'rb') as fp:
-            if ui.HelpDialog.HelpDialog(fp.read()).ShowModal() == wx.ID_OK:
+        with open('./docs/help.html', 'rb') as fp:
+            if HelpDialog.HelpDialog(fp.read()).ShowModal() == wx.ID_OK:
                 ...   # 这里什么都不用写
 
     @staticmethod
     def on_feedback():
-        system('start ') # 后接GitHub反馈地址
+        system('start ')  # 后接GitHub Issues - advice地址
 
     @staticmethod
     def on_report():
-        system('start ') # 后接GitHub反馈地址
+        system('start ')  # 后接GitHub Issues - bug地址
 
     @staticmethod
     def on_github():
-        system('start ') # 后接GitHub仓库地址
+        system('start ')  # 后接GitHub仓库地址
 
     @staticmethod
     def on_homepage():
@@ -180,3 +178,16 @@ class MainFrame(ui.MyFrame.MyFrame):
     def on_about():
         wx.MessageBox('课程表导入日历助手\n\n本工具旨在帮助大学生方便管理自己的课程。\n\n本软件为开源，遵循地址', '关于软件')
 
+    # def get_reminder(self) -> Union[float, None]:
+    #     """
+    #     返回分钟值
+    #     :return: float | None
+    #     """
+    #     _r = self.textbox.GetValue()
+    #     if not _r:
+    #         try:
+    #             return float(_r)
+    #         except ValueError:
+    #             wx.MessageBox('输入的提醒时间有误！', '错误', wx.ICON_ERROR)
+    #             return -1
+    #     return None
