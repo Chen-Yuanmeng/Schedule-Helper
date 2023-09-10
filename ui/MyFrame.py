@@ -1,5 +1,5 @@
 import wx
-from DisplayConfig import DISPLAY_SCALE
+import ui.DisplayConfig
 
 
 class MyFrame(wx.Frame):
@@ -7,7 +7,7 @@ class MyFrame(wx.Frame):
         if width == 0 or height == 0:
             super().__init__(parent, id, title, size=wx.DefaultSize, style=style)
         else:
-            super().__init__(parent, id, title, size=(width * DISPLAY_SCALE, height * DISPLAY_SCALE), style=style)
+            super().__init__(parent, id, title, size=(width * ui.DisplayConfig.DISPLAY_SCALE, height * ui.DisplayConfig.DISPLAY_SCALE), style=style)
         self.panel = wx.Panel(self)
-        ico = wx.Icon('../ScheduleHelper.ico')
+        ico = wx.Icon('./assets/ScheduleHelper.ico')
         self.SetIcon(ico)

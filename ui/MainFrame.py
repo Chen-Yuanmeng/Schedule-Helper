@@ -1,12 +1,13 @@
 import wx
 from os import system
-from MyFrame import MyFrame
-from MyFont import MyFont
-from HelpDialog import HelpDialog
-from DisplayConfig import DISPLAY_SCALE
+import ui.MyFrame
+import ui.MyFont
+import ui.HelpDialog
+import ui.RestoreExcel
+import ui.DisplayConfig
 
 
-class MainFrame(MyFrame):
+class MainFrame(ui.MyFrame.MyFrame):
     MENU_ID_EXIT = 101
     MENU_ID_HELP_DOCUMENTATION = 102
     MENU_ID_FEEDBACK = 103
@@ -14,13 +15,14 @@ class MainFrame(MyFrame):
     MENU_ID_GITHUB = 105
     MENU_ID_HOMEPAGE = 106
     MENU_ID_ABOUT = 107
+    MENU_ID_RESTORE_EXCEL = 108
 
     def __init__(self):
         super().__init__('课程表导入日历助手')
 
         # 字体
-        self.font = MyFont(12, '微软雅黑')
-        self.font_small = MyFont(11, '微软雅黑')
+        self.font = ui.MyFont.MyFont(12, '微软雅黑')
+        self.font_small = ui.MyFont.MyFont(11, '微软雅黑')
 
         # 整体sizer布局
         self.sizer = wx.BoxSizer(wx.VERTICAL)
@@ -36,7 +38,7 @@ class MainFrame(MyFrame):
         # 第一个框
         self.text_1 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课节.xlsx”，并按\n提示操作')
         self.text_1.SetFont(self.font)
-        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节', size=(350 * DISPLAY_SCALE, 45 * DISPLAY_SCALE))
+        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节', size=(350 * ui.DisplayConfig.DISPLAY_SCALE, 45 * ui.DisplayConfig.DISPLAY_SCALE))
         self.button_1.SetFont(self.font_small)
         self.button_1.Bind(wx.EVT_BUTTON, self.on_click_button_1)
         self.step_1.Add(self.text_1, 0, wx.ALL, 5)
@@ -45,7 +47,7 @@ class MainFrame(MyFrame):
         # 第二个框
         self.text_2 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课程.xlsx”，并按\n提示操作')
         self.text_2.SetFont(self.font)
-        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程', size=(350 * DISPLAY_SCALE, 45 * DISPLAY_SCALE))
+        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程', size=(350 * ui.DisplayConfig.DISPLAY_SCALE, 45 * ui.DisplayConfig.DISPLAY_SCALE))
         self.button_2.SetFont(self.font_small)
         self.button_2.Bind(wx.EVT_BUTTON, self.on_click_button_2)
         self.step_2.Add(self.text_2, 0, wx.ALL, 5)
@@ -92,6 +94,8 @@ class MainFrame(MyFrame):
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
+        self.file_menu.Append(wx.MenuItem(self.file_menu, self.MENU_ID_RESTORE_EXCEL, '恢复Excel模板(&R)'))
+        self.file_menu.AppendSeparator()
         self.file_menu.Append(wx.MenuItem(self.file_menu, self.MENU_ID_EXIT, '退出(&E)'))
         self.help_menu = wx.Menu()
         self.help_menu.Append(wx.MenuItem(self.help_menu, self.MENU_ID_HELP_DOCUMENTATION, '打开帮助文档(&D)'))
@@ -128,6 +132,7 @@ class MainFrame(MyFrame):
         id = evt.GetId()
 
         func_table = {self.MENU_ID_EXIT: self.on_exit,
+            self.MENU_ID_RESTORE_EXCEL: self.on_restore,
             self.MENU_ID_HELP_DOCUMENTATION: self.on_open_doc,
             self.MENU_ID_FEEDBACK: self.on_feedback,
             self.MENU_ID_REPORT: self.on_report,
@@ -143,9 +148,14 @@ class MainFrame(MyFrame):
             wx.Exit()
 
     @staticmethod
+    def on_restore():
+        ui.RestoreExcel.restore_excel()
+        wx.MessageBox('已经恢复 设置课节.xlsx 和 设置课程.xlsx 两文件', '提示')
+
+    @staticmethod
     def on_open_doc():
         with open('../docs/help.html', 'rb') as fp:
-            if HelpDialog(fp.read()).ShowModal() == wx.ID_OK:
+            if ui.HelpDialog.HelpDialog(fp.read()).ShowModal() == wx.ID_OK:
                 ...   # 这里什么都不用写
 
     @staticmethod

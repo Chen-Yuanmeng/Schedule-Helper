@@ -1,0 +1,39 @@
+name: BUG提交 / BUG Report
+description: Report bugs to developers
+labels: ["BUG"]
+body:
+  - type: checkboxes
+    attributes:
+      label: 确认 / Assignments
+      description: 提交issue请确保完成以下前提，否则该issue可能被忽略 / Make sure you read checkboxs below
+      options:
+        - label: 搜索现有issues，不存在相似或相关的issue / No similar or related issues
+          required: true
+
+  - type: textarea
+    attributes:
+      label: 问题描述 / Describe Bugs
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 复现步骤 / How to reproduce
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: 确认 / Assignment
+      options:
+        - label: 已经提交复现所需要的附加资料 / Submit additions related with bugs
+          required: true
+  - type: textarea
+    attributes:
+      label: 其他信息 / Additions
+
+  - type: input
+    attributes:
+      label: 平台 / Platform
+      placeholder: "Windows 10 专业版 22H2"
+    validations:
+      required: true
+
