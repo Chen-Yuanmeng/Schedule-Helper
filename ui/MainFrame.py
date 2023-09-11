@@ -221,7 +221,7 @@ class MainFrame(MyFrame.MyFrame):
             course.iterate(origin, sect_time, fp)
         print('END:VCALENDAR', file=fp)
         fp.close()
-        wx.MessageBox('已生成' + name + '，可以用微信等分享到手机->用日历APP或其他软件打开并导入')
+        wx.MessageBox('已生成' + name + '，可以用微信等分享到手机->用日历APP或其他软件打开并导入', '提示')
 
     def on_menubar(self, evt):
         func_table = {self.MENU_ID_EXIT: self.on_exit,
@@ -248,8 +248,7 @@ class MainFrame(MyFrame.MyFrame):
     @staticmethod
     def on_open_doc():
         with open('./docs/help.html', 'rb') as fp:
-            if HelpDialog.HelpDialog(fp.read()).ShowModal() == wx.ID_OK:
-                ...   # 这里什么都不用写
+            HelpDialog.HelpDialog(fp.read())
 
     @staticmethod
     def on_feedback():
@@ -276,16 +275,3 @@ class MainFrame(MyFrame.MyFrame):
                       '更多信息可查看我们的GitHub发布页，详见帮助->打开GitHub主页。\n\n'
                       '我们欢迎大家使用我们的小工具，如果你感觉不错的话，可以推荐给朋友，或在GitHub上给我们一颗Star，这会对我们有非常大的帮助', '关于软件')
 
-    # def get_reminder(self) -> Union[float, None]:
-    #     """
-    #     返回分钟值
-    #     :return: float | None
-    #     """
-    #     _r = self.textbox.GetValue()
-    #     if not _r:
-    #         try:
-    #             return float(_r)
-    #         except ValueError:
-    #             wx.MessageBox('输入的提醒时间有误！', '错误', wx.ICON_ERROR)
-    #             return -1
-    #     return None

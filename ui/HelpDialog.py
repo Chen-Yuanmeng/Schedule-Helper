@@ -1,10 +1,12 @@
 import wx
 import wx.html2
+import ui.DisplayConfig
+import ui.MyFrame
 
 
-class HelpDialog(wx.Dialog):
+class HelpDialog(ui.MyFrame.MyFrame):
     def __init__(self, html_string):
-        super().__init__(None, -1, '帮助', size=(450, 500))
+        super().__init__('帮助', 600, 1000)
 
         self.Centre()
 
@@ -24,7 +26,11 @@ class HelpDialog(wx.Dialog):
         self.Show()
 
         self.Bind(wx.EVT_CLOSE, self.close)
+        self.Bind(wx.EVT_SIZE, self.on_size)
 
     def close(self, evt):
         self.Destroy()
+
+    def on_size(self, _):
+        self.help_text.SetSize(self.GetVirtualSize())
 
