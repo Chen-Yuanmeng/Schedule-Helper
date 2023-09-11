@@ -1,6 +1,5 @@
 import wx
 import wx.html2
-import ui.DisplayConfig
 import ui.MyFrame
 
 
@@ -28,9 +27,8 @@ class HelpDialog(ui.MyFrame.MyFrame):
         self.Bind(wx.EVT_CLOSE, self.close)
         self.Bind(wx.EVT_SIZE, self.on_size)
 
-    def close(self, evt):
+    def close(self, _):
         self.Destroy()
 
     def on_size(self, _):
         self.help_text.SetSize(self.GetVirtualSize())
-

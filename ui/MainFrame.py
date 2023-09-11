@@ -43,13 +43,15 @@ class MainFrame(MyFrame.MyFrame):
         self.step_5 = wx.StaticBoxSizer(wx.VERTICAL, self.panel, 'Step 5: 导出文件')
 
         # 顶部文字
-        self.text = wx.StaticText(self.panel, -1, '下面，程序会引导你制作一份可以将你的课程表导入各\n大手机日历APP、邮箱日历的小工具')
+        self.text = wx.StaticText(self.panel, -1,
+                                  '下面，程序会引导你制作一份可以将你的课程表导入各\n大手机日历APP、邮箱日历的小工具')
         self.text.SetFont(self.font)
 
         # 第一个框
         self.text_1 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课节.xlsx”，并按\n提示操作')
         self.text_1.SetFont(self.font)
-        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节', size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
+        self.button_1 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课节',
+                                  size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
         self.button_1.SetFont(self.font_small)
         self.button_1.Bind(wx.EVT_BUTTON, self.on_click_button_1)
         self.step_1.Add(self.text_1, 0, wx.ALL, 5)
@@ -58,7 +60,8 @@ class MainFrame(MyFrame.MyFrame):
         # 第二个框
         self.text_2 = wx.StaticText(self.panel, -1, '首先，请打开文件夹中的“设置课程.xlsx”，并按\n提示操作')
         self.text_2.SetFont(self.font)
-        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程', size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
+        self.button_2 = wx.Button(self.panel, -1, '然后，点击这个按钮导入课程',
+                                  size=(350 * DisplayConfig.DISPLAY_SCALE, 45 * DisplayConfig.DISPLAY_SCALE))
         self.button_2.SetFont(self.font_small)
         self.button_2.Bind(wx.EVT_BUTTON, self.on_click_button_2)
         self.step_2.Add(self.text_2, 0, wx.ALL, 5)
@@ -69,7 +72,8 @@ class MainFrame(MyFrame.MyFrame):
         self.text_3_1.SetFont(self.font)
         self.text_3_2 = wx.StaticText(self.panel, -1, '分钟（注：此空不填则不会设置提醒）')
         self.text_3_2.SetFont(self.font)
-        self.text_3_3 = wx.StaticText(self.panel, -1, '收到手机的通知提醒。PS：建议这个时间设置为你\n从寝室赶到离你最远的教室的用时')
+        self.text_3_3 = wx.StaticText(self.panel, -1,
+                                      '收到手机的通知提醒。PS：建议这个时间设置为你\n从寝室赶到离你最远的教室的用时')
         self.text_3_3.SetFont(self.font)
         self.textbox = wx.TextCtrl(self.panel, -1, '', size=(50, 32))
         self.step_3.Add(self.text_3_1, 0, wx.ALL, 5)
@@ -107,7 +111,8 @@ class MainFrame(MyFrame.MyFrame):
         self.button_5.Bind(wx.EVT_BUTTON, self.on_click_button_4)
         self.text_5_1 = wx.StaticText(self.panel, -1, '完成后，点击下面的按钮生成文件')
         self.text_5_1.SetFont(self.font)
-        self.text_5_2 = wx.StaticText(self.panel, -1, '你可以将文件通过微信传到手机->用其他程序打开\n->选择日历APP，导入到你的日历中')
+        self.text_5_2 = wx.StaticText(self.panel, -1,
+                                      '你可以将文件通过微信传到手机->用其他程序打开\n->选择日历APP，导入到你的日历中')
         self.text_5_2.SetFont(self.font)
         self.step_5.Add(self.text_5_1, 0, wx.ALL, 5)
         self.step_5.Add(self.button_5, 0, wx.ALL, 5)
@@ -200,11 +205,13 @@ class MainFrame(MyFrame.MyFrame):
                 alarm = None
         except (ValueError, AssertionError):
             message.append('请在提醒时间处输入正整数或0或不填')
-        if self.textbox_year.GetValue() == '' or self.textbox_month.GetValue() == '' or self.textbox_day.GetValue() == '':
+        if (self.textbox_year.GetValue() == '' or self.textbox_month.GetValue() == ''
+                or self.textbox_day.GetValue() == ''):
             message.append('请输入第四步中的日期')
         else:
             try:
-                origin = datetime(int(self.textbox_year.GetValue()), int(self.textbox_month.GetValue()), int(self.textbox_day.GetValue()))
+                origin = datetime(int(self.textbox_year.GetValue()), int(self.textbox_month.GetValue()),
+                                  int(self.textbox_day.GetValue()))
             except ValueError:
                 message.append('请确保输入了正确的日期')
         if message:
@@ -225,13 +232,13 @@ class MainFrame(MyFrame.MyFrame):
 
     def on_menubar(self, evt):
         func_table = {self.MENU_ID_EXIT: self.on_exit,
-            self.MENU_ID_RESTORE_EXCEL: self.on_restore,
-            self.MENU_ID_HELP_DOCUMENTATION: self.on_open_doc,
-            self.MENU_ID_FEEDBACK: self.on_feedback,
-            self.MENU_ID_REPORT: self.on_report,
-            self.MENU_ID_GITHUB: self.on_github,
-            self.MENU_ID_HOMEPAGE: self.on_homepage,
-            self.MENU_ID_ABOUT: self.on_about}
+                      self.MENU_ID_RESTORE_EXCEL: self.on_restore,
+                      self.MENU_ID_HELP_DOCUMENTATION: self.on_open_doc,
+                      self.MENU_ID_FEEDBACK: self.on_feedback,
+                      self.MENU_ID_REPORT: self.on_report,
+                      self.MENU_ID_GITHUB: self.on_github,
+                      self.MENU_ID_HOMEPAGE: self.on_homepage,
+                      self.MENU_ID_ABOUT: self.on_about}
 
         func_table[evt.GetId()]()
 
@@ -252,11 +259,15 @@ class MainFrame(MyFrame.MyFrame):
 
     @staticmethod
     def on_feedback():
-        system('start https://github.com/Chen-Yuanmeng/Schedule-Helper/issues/new?assignees=&labels=%E9%9C%80%E6%B1%82&projects=&template=02-featureRequest.yml')  # 后接GitHub Issues - advice地址
+        system(
+            'start https://github.com/Chen-Yuanmeng/Schedule-Helper/issues/new?assignees=&labels=%E9%9C%80%E6%B1%82'
+            '&projects=&template=02-featureRequest.yml')  # 后接GitHub Issues - advice地址
 
     @staticmethod
     def on_report():
-        system('start https://github.com/Chen-Yuanmeng/Schedule-Helper/issues/new?assignees=&labels=BUG&projects=&template=01-bugReport.yml')  # 后接GitHub Issues - bug地址
+        system(
+            'start https://github.com/Chen-Yuanmeng/Schedule-Helper/issues/new?assignees=&labels=BUG&projects='
+            '&template=01-bugReport.yml')  # 后接GitHub Issues - bug地址
 
     @staticmethod
     def on_github():
@@ -273,5 +284,5 @@ class MainFrame(MyFrame.MyFrame):
         wx.MessageBox('课程表导入日历助手\n\n本工具旨在帮助大学生方便地在手机上查看自己的课程。\n\n'
                       '本软件为开源，遵循Apache-2.0许可证，详见关于->查看许可证。\n\n'
                       '更多信息可查看我们的GitHub发布页，详见帮助->打开GitHub主页。\n\n'
-                      '我们欢迎大家使用我们的小工具，如果你感觉不错的话，可以推荐给朋友，或在GitHub上给我们一颗Star，这会对我们有非常大的帮助', '关于软件')
-
+                      '我们欢迎大家使用我们的小工具，如果你感觉不错的话，可以推荐给朋友，或在GitHub上给我们一颗Star，这会对我们有非常大的帮助',
+                      '关于软件')
