@@ -10,9 +10,9 @@
 
 可以从以下方式获取本软件：
 
-- [GitHub Release]()
-- [Gitee Release (GitHub镜像)]()
-- [蓝奏云]()
+- [GitHub Release](https://github.com/Chen-Yuanmeng/Schedule-Helper/releases/tag/v0.1.0-alpha)
+- [Gitee Release (GitHub镜像)](https://gitee.com/cyqm_zz/schedule_helper/releases/tag/v0.1.0-alpha)
+- [蓝奏云](https://wwce.lanzouq.com/igCSG185pzbg)
 
 ## 使用方法
 
