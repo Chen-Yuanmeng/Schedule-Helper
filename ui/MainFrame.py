@@ -1,6 +1,7 @@
 import wx
 from os import system
 from datetime import datetime
+from icalendar import Calendar
 import ui.MyFrame as MyFrame
 import ui.MyFont as MyFont
 import ui.HelpDialog as HelpDialog
@@ -15,6 +16,7 @@ import core.get_filename
 
 
 class MainFrame(MyFrame.MyFrame):
+    TIMEZONES = ['Asia/Shanghai', 'Asia/Tokyo', 'Europe/London', 'America/New_York', 'UTC']
     MENU_ID_EXIT = 101
     MENU_ID_HELP_DOCUMENTATION = 102
     MENU_ID_FEEDBACK = 103
@@ -104,6 +106,14 @@ class MainFrame(MyFrame.MyFrame):
         self.step_4_2.Add(self.textbox_day, 0, wx.ALL, 5)
         self.step_4_2.Add(self.text_4_4, 0, wx.ALL, 5)
         self.step_4.Add(self.step_4_2, 0, 0, 0)
+        self.step_4_3 = wx.BoxSizer(wx.HORIZONTAL)
+        self.text_4_5 = wx.StaticText(self.panel, -1, '导出时区：')
+        self.text_4_5.SetFont(self.font)
+        self.timezone_choice = wx.ComboBox(self.panel, -1, 'Asia/Shanghai', choices=self.TIMEZONES, style=wx.CB_READONLY)
+        self.timezone_choice.SetFont(self.font_small)
+        self.step_4_3.Add(self.text_4_5, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
+        self.step_4_3.Add(self.timezone_choice, 0, wx.ALL, 5)
+        self.step_4.Add(self.step_4_3, 0, 0, 0)
 
         # 第五个框
         self.button_5 = wx.Button(self.panel, -1, '生成ics文件')
@@ -221,13 +231,16 @@ class MainFrame(MyFrame.MyFrame):
             return
         sect_time = core.parse_sect.parse_sect(self.dct_arrangement)
         name = core.get_filename.get_filename()
-        fp = open(name, 'w', encoding='UTF-8')  # 输出文件
-        print('BEGIN:VCALENDAR', file=fp)
+        timezone = self.timezone_choice.GetValue() or 'Asia/Shanghai'
+        calendar = Calendar()
+        calendar.add('prodid', '-//Schedule Helper//')
+        calendar.add('version', '2.0')
+        calendar.add('X-WR-TIMEZONE', timezone)
         for c in self.ls_courses:
             course = core.course.Course(c, alarm, origin)
-            course.iterate(origin, sect_time, fp)
-        print('END:VCALENDAR', file=fp)
-        fp.close()
+            course.iterate(origin, sect_time, calendar, timezone)
+        with open(name, 'wb') as fp:
+            fp.write(calendar.to_ical())
         wx.MessageBox('已生成' + name + '，可以用微信等分享到手机->用日历APP或其他软件打开并导入', '提示')
 
     def on_menubar(self, evt):

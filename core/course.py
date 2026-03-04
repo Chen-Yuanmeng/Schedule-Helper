@@ -16,7 +16,7 @@ class Course:
     def info(self):
         return self.name, self.lecturer, self.location
 
-    def iterate(self, origin, sect_time, output):
+    def iterate(self, origin, sect_time, calendar, timezone: str):
         for w in self.weeks:
             for d in self.days:
-                print(core.event.Event(self, w, d).generate_event_text(origin, sect_time), file=output, end='')
+                calendar.add_component(core.event.Event(self, w, d).generate_event(origin, sect_time, timezone))
