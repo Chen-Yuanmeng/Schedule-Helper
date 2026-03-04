@@ -22,6 +22,7 @@
 pip install -r requirements.txt
 ```
 
+**注意：** 本项目当前仅支持在 Windows 系统上运行，代码中使用了 `win32api` 和 `ctypes.windll.shcore` 等 Windows 专有 API。在 macOS 或 Linux 上即使能够通过 `pip install -r requirements.txt` 安装依赖，从源码运行也会失败。
 ## 使用方法
 
 ### Step 1: 设置课节
