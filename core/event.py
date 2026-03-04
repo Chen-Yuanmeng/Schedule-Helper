@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-import core.course
 import core.parse_date
 from icalendar import Alarm, Event as ICalEvent
 
