@@ -14,6 +14,14 @@
 - [Gitee Release (GitHub镜像)](https://gitee.com/cyqm_zz/schedule_helper/releases/tag/v0.1.0-alpha)
 - [蓝奏云](https://wwt.lanzouq.com/igCSG185pzbg)
 
+## 安装依赖（开发/源码运行）
+
+在项目根目录执行：
+
+```bash
+pip install -r requirements.txt
+```
+
 ## 使用方法
 
 ### Step 1: 设置课节
