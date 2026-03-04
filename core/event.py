@@ -1,28 +1,12 @@
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
 import core.course
 import core.parse_date
+from icalendar import Alarm, Event as ICalEvent
 
 
 class Event:
-    SEQ = """BEGIN:VEVENT
-SUMMARY;CHARSET=UTF-8:{name}
-DTSTAMP:19700101T000000Z
-STATUS:TENTATIVE
-LOCATION;CHARSET=UTF-8:{location}
-DESCRIPTION;CHARSET=UTF-8:{lecturer}
-X-ALLDAY:0
-X-TIMEZONE:Asia/Shanghai
-DTSTART:{start}
-DTEND:{end}
-{alarm}END:VEVENT
-"""
-
-    ALARM = """BEGIN:VALARM
-ACTION:AUDIO
-TRIGGER:-PT{trigger}M
-DESCRIPTION:Reminder
-END:VALARM
-"""
-
     def __init__(self, course, week: int, day: int):
         self.name, self.lecturer, self.location = course.info()
         self.week = week
@@ -31,15 +15,25 @@ END:VALARM
         self.alarm = course.alarm
         ...
 
-    def generate_event_text(self, origin, sect_time):
-        text = Event.SEQ
-        text = text.replace('{name}', self.name)
-        text = text.replace('{location}', self.location)
-        text = text.replace('{lecturer}', self.lecturer)
-        text = text.replace('{start}', core.parse_date.parse_date(origin, self.week, self.day) + 'T' + sect_time[min(self.sect)][0] + 'Z')
-        text = text.replace('{end}', core.parse_date.parse_date(origin, self.week, self.day) + 'T' + sect_time[max(self.sect)][1] + 'Z')
-        if self.alarm is None:
-            text = text.replace('{alarm}', '')
-        else:
-            text = text.replace('{alarm}', Event.ALARM.replace('{trigger}', str(self.alarm)))
-        return text
+    def generate_event(self, origin, sect_time, timezone: str):
+        date = core.parse_date.parse_date(origin, self.week, self.day)
+        tz = ZoneInfo(timezone)
+        start = datetime.strptime(date + sect_time[min(self.sect)][0], '%Y%m%d%H%M%S').replace(tzinfo=tz)
+        end = datetime.strptime(date + sect_time[max(self.sect)][1], '%Y%m%d%H%M%S').replace(tzinfo=tz)
+
+        event = ICalEvent()
+        event.add('summary', self.name)
+        event.add('status', 'TENTATIVE')
+        event.add('location', self.location)
+        event.add('description', self.lecturer)
+        event.add('dtstart', start)
+        event.add('dtend', end)
+
+        if self.alarm is not None:
+            alarm = Alarm()
+            alarm.add('action', 'AUDIO')
+            alarm.add('trigger', timedelta(minutes=-self.alarm))
+            alarm.add('description', 'Reminder')
+            event.add_component(alarm)
+
+        return event
